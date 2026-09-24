@@ -5,7 +5,7 @@ const fs = require("fs");
 const os = require("os");
 
 const gatewayPath = path.resolve(__dirname, "../index.ts");
-const notionPath = path.resolve(__dirname, "../adapters/notion.ts");
+const notionPath = path.resolve(__dirname, "../adapters/notion/adapter.ts");
 
 function tmpAuditPath() {
   return path.join(fs.mkdtempSync(path.join(os.tmpdir(), "dbgw-")), "audit.log");

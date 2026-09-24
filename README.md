@@ -24,7 +24,7 @@ The gateway never throws; it returns `{ outcome, denyReason, rows?, rowCount?, l
 ```json
 {
   "dependencies": {
-    "@acegalaxy/lib-db-gateway": "github:acegalaxy-co/lib-db-gateway#v0.2.0"
+    "@acegalaxy/lib-db-gateway": "github:acegalaxy-co/lib-db-gateway#v0.3.0"
   }
 }
 ```
@@ -94,6 +94,36 @@ never a hard dependency of this package).
 Abstract base (`adapters/adapter-interface.ts`): `store`, `validate(request)` (throws
 on invalid, no I/O), `execute(request): Promise<{ rows?, rowCount? }>`.
 
+### Notion transport client
+
+`adapters/notion/` also exports a standalone `createNotionClient()` — lower-level than
+the `notion` adapter above (no `L1`/`validate()` gating), for callers that need direct
+Notion REST access with rate-limiting, retry and audit built in:
+
+```js
+const { createNotionClient } = require("@acegalaxy/lib-db-gateway/adapters/notion");
+
+// All fields optional — falls back to env (NOTION_TOKEN, NOTION_BASE_URL,
+// NOTION_API_VERSION, NOTION_RATE_INTERVAL_MS, NOTION_MAX_RETRIES, ...) read
+// lazily at call time. An explicit option here always overrides env.
+const client = createNotionClient({
+  token: process.env.NOTION_TOKEN,
+  auditDir: "/var/log/nexus/notion-audit",     // optional mutation audit (JSONL)
+  hooks: {
+    beforeRequest(url, options) { /* may throw to block the call */ },
+    afterResponse(ctx, url, options, resp) { /* never throws out of request() */ },
+  },
+});
+
+const resp = await client.request("/v1/pages/<id>");           // Response-like, never throws
+const pages = await client.queryAll("<database-id>", filter);  // auto-paginates
+await client.updatePage("<page-id>", { Status: { select: { name: "Done" } } });
+await client.archivePage("<page-id>");
+```
+
+Retries: 429 (honors `Retry-After`), 5xx, and network errors — up to `maxRetries`
+(default 3), then returns `{ ok: false, status, ... }` instead of throwing.
+
 ## Security layers
 
 1. **L2 identity** — `resolveCaller(caller)`, default-deny on missing `service`/`scope`.
@@ -104,6 +134,10 @@ on invalid, no I/O), `execute(request): Promise<{ rows?, rowCount? }>`.
 
 ## Changelog
 
+- **0.3.0** — `createNotionClient()` (rate limit, 429/5xx/network retry, mutation
+  audit, `beforeRequest`/`afterResponse` hooks) added under `adapters/notion/`;
+  `adapters/notion.ts` moved to `adapters/notion/adapter.ts` (same exports, no
+  breaking change). See `CHANGELOG.md`.
 - **0.2.0** — migrated from `@acegalaxy/db-gateway@0.1.2` / Nexus `commons/db-gateway`.
   New `createDbGateway()` factory (adapters/policies/dryRun/auditLogPath/rateLimitPerMinute
   all configurable per instance), `IDBAdapter.validate()`, optional per-service policy ACL

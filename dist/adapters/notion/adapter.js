@@ -1,5 +1,5 @@
 "use strict";
-const { IDBAdapter } = require("./adapter-interface");
+const { IDBAdapter } = require("../adapter-interface");
 // 32-hex UUID, dashes optional (standard 8-4-4-4-12 or 32 contiguous hex chars).
 const RAW_ID_REGEX = /^[a-f0-9]{8}-?[a-f0-9]{4}-?[a-f0-9]{4}-?[a-f0-9]{4}-?[a-f0-9]{12}$/i;
 // `notion:<type>:<8hex>` form produced by consumers' URL-target normalizers (e.g. Nexus db-shadow).

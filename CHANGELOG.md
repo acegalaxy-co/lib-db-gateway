@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-09-24
+
+### Added
+- `createNotionClient()` — generic Notion transport client under `adapters/notion/`
+  (`client.ts`, `config.ts`, `rate.ts`): proactive rate limiting, 429/5xx/network-error
+  retry, mutation audit log (JSONL, reuses `@acegalaxy/lib-security-utils/audit-log`),
+  and `hooks.beforeRequest`/`hooks.afterResponse` for consumer-specific gating (e.g. a
+  "assert parent db" check) instead of hardcoding it. Env (`NOTION_TOKEN`,
+  `NOTION_BASE_URL`, `NOTION_API_VERSION`, `NOTION_RATE_INTERVAL_MS`, ...) is read
+  lazily at `createNotionClient()` call time; an explicit options object always
+  overrides env.
+- `adapters/notion/index.ts` re-exports both the existing `NotionAdapter`/`create`
+  (moved from `adapters/notion.ts` → `adapters/notion/adapter.ts`, unchanged) and the
+  new client — `require("@acegalaxy/lib-db-gateway/adapters/notion")` keeps working.
+
+### Changed
+- `adapters/notion.ts` moved to `adapters/notion/adapter.ts` (directory layout, no
+  behavior change); `package.json#exports["./adapters/notion"]` updated to
+  `./dist/adapters/notion/index.js`.
+
 ## [0.2.0] - 2026-09-24
 
 ### Changed

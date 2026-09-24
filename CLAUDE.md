@@ -11,7 +11,10 @@ Project-agnostic gateway wrapping DB adapters with default-deny authz + audit. C
 ## Key files
 
 - `index.js` — entry point, `createDbGateway()` factory
-- `adapters/` — postgres / sqlite / notion drivers
+- `adapters/` — postgres / sqlite / notion drivers. `adapters/notion/` also exports
+  `createNotionClient()` — a standalone Notion REST transport client (rate limit,
+  429/5xx/network retry, mutation audit, `beforeRequest`/`afterResponse` hooks),
+  separate from the gateway-gated `NotionAdapter`. See README "Notion transport client".
 - `authz/` — default-deny engine; policies are plain objects passed at call time via
   `createDbGateway({ policies })` — no bundled YAML
 - `audit/`, `rate-limit/`, `identity/` — L5 forensics, L4 DoS guard, identity resolver

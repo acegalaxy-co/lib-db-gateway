@@ -4,7 +4,7 @@ const path = require("path");
 
 const postgresPath = path.resolve(__dirname, "../adapters/postgres.ts");
 const sqlitePath = path.resolve(__dirname, "../adapters/sqlite.ts");
-const notionPath = path.resolve(__dirname, "../adapters/notion.ts");
+const notionPath = path.resolve(__dirname, "../adapters/notion/adapter.ts");
 const gatewayPath = path.resolve(__dirname, "../index.ts");
 
 describe("PostgresAdapter", () => {

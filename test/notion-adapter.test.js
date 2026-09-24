@@ -2,7 +2,7 @@ const { describe, it } = require("node:test");
 const assert = require("node:assert/strict");
 const path = require("path");
 
-const notionPath = path.resolve(__dirname, "../dist/adapters/notion.js");
+const notionPath = path.resolve(__dirname, "../dist/adapters/notion/adapter.js");
 
 const RAW_ID = "12345678-90ab-cdef-1234-567890abcdef";
 const FAKE_TOKEN = "test-token";
