@@ -2,7 +2,7 @@
 
 ## Reporting a vulnerability
 
-If you discover a security vulnerability in `@acegalaxy/db-gateway`, please
+If you discover a security vulnerability in `@acegalaxy/lib-db-gateway`, please
 **do not** open a public GitHub issue.
 
 Email **security@acegalaxy.co** with:

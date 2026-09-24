@@ -20,6 +20,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Use token for private git deps
+        run: git config --global url."https://x-access-token:${{ secrets.LIB_DEPS_TOKEN }}@github.com/".insteadOf "ssh://git@github.com/" && git config --global --add url."https://x-access-token:${{ secrets.LIB_DEPS_TOKEN }}@github.com/".insteadOf "git@github.com:"
+
       - name: Install
         run: npm install --no-audit --no-fund
 

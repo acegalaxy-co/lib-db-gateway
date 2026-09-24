@@ -1,66 +1,44 @@
 {
-  "name": "@acegalaxy/db-gateway",
-  "version": "0.1.2",
-  "description": "Multi-DB adapter (Postgres + SQLite + Notion) with a 5-layer default-deny security gateway: identity, policy authz (YAML), rate-limit, append-only audit log.",
+  "name": "@acegalaxy/lib-db-gateway",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Multi-DB adapter (Postgres + SQLite + Notion) with a 5-layer default-deny security gateway: identity, schema + policy authz, rate-limit, append-only audit log, dryRun mode. Consumed cross-project via git-dependency. Migrated from @acegalaxy/db-gateway@0.1.2 / Nexus commons/db-gateway.",
   "main": "dist/index.js",
-  "scripts": {
-    "test": "node --test test/*.test.js",
-    "build": "tsc",
-    "prepublishOnly": "npm run build",
-    "clean": "rm -rf dist",
-    "pretest": "npm run build"
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./adapters/adapter-interface": "./dist/adapters/adapter-interface.js",
+    "./adapters/notion": "./dist/adapters/notion.js",
+    "./adapters/postgres": "./dist/adapters/postgres.js",
+    "./adapters/sqlite": "./dist/adapters/sqlite.js"
   },
-  "keywords": [
-    "database",
-    "gateway",
-    "postgres",
-    "sqlite",
-    "notion",
-    "authz",
-    "audit"
+  "files": [
+    "dist/",
+    "README.md"
   ],
-  "author": "ACE Galaxy <hello@acegalaxy.co>",
-  "license": "MIT",
-  "private": false,
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "test": "node --import tsx --test test/*.test.js"
+  },
   "engines": {
     "node": ">=20"
   },
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/acegalaxy-co/ace_commons-db-gateway-nodejs.git"
-  },
-  "bugs": {
-    "url": "https://github.com/acegalaxy-co/ace_commons-db-gateway-nodejs/issues"
-  },
-  "homepage": "https://github.com/acegalaxy-co/ace_commons-db-gateway-nodejs#readme",
+  "repository": "github:acegalaxy-co/lib-db-gateway",
   "dependencies": {
-    "@acegalaxy/security-utils": "file:../ace_commons-security-utils-nodejs"
+    "@acegalaxy/lib-security-utils": "github:acegalaxy-co/lib-security-utils#v0.3.0"
   },
-  "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
-    "./*": {
-      "types": "./dist/*.d.ts",
-      "default": "./dist/*.js"
-    },
-    "./package.json": "./package.json"
-  },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE",
-    "CONTRIBUTING.md",
-    "SECURITY.md",
-    "CHANGELOG.md"
-  ],
   "devDependencies": {
     "typescript": "^5.7.0",
-    "@types/node": "^20.0.0"
+    "@types/node": "^20",
+    "tsx": "^4"
+  },
+  "peerDependencies": {
+    "pg": ">=8"
+  },
+  "peerDependenciesMeta": {
+    "pg": {
+      "optional": true
+    }
   }
 }

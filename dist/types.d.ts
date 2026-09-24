@@ -1,5 +1,3 @@
-"use strict";
-
 /**
  * @typedef {Object} Caller
  * @property {string} service    service name (e.g. "nexus-invoice-collector")
@@ -7,11 +5,10 @@
  * @property {string[]} [roles]  optional role list for authz
  */
 export interface Caller {
-  service: string;
-  scope: string;
-  roles?: string[];
+    service: string;
+    scope: string;
+    roles?: string[];
 }
-
 /**
  * @typedef {Object} QueryRequest
  * @property {"postgres"|"sqlite"|"notion"} store  target data store
@@ -23,15 +20,14 @@ export interface Caller {
  * @property {string} [rawSql]       raw SQL (only for allowlisted services)
  */
 export interface QueryRequest {
-  store: "postgres" | "sqlite" | "notion";
-  op: "read" | "write" | "archive" | "create" | "update" | "delete";
-  table: string;
-  columns?: string[];
-  where?: Record<string, unknown>;
-  data?: Record<string, unknown>;
-  rawSql?: string;
+    store: "postgres" | "sqlite" | "notion";
+    op: "read" | "write" | "archive" | "create" | "update" | "delete";
+    table: string;
+    columns?: string[];
+    where?: Record<string, unknown>;
+    data?: Record<string, unknown>;
+    rawSql?: string;
 }
-
 /**
  * @typedef {Object} OutcomeRecord
  * @property {string} ts              ISO timestamp
@@ -47,26 +43,17 @@ export interface QueryRequest {
  * @property {number|null} [rowCount] rows affected (on allow); null in dryRun
  */
 export interface OutcomeRecord {
-  ts: string;
-  store: string;
-  op: string;
-  table: string;
-  callerService: string;
-  callerScope: string;
-  outcome: "allow" | "deny";
-  denyReason:
-    | "L2_unknown_caller"
-    | "L3_schema"
-    | "L3_authz"
-    | "L3_notion_delete"
-    | "L3_policy"
-    | "L4_rate_limit"
-    | "L1_adapter"
-    | null;
-  latencyMs: number;
-  rowCount?: number | null;
+    ts: string;
+    store: string;
+    op: string;
+    table: string;
+    callerService: string;
+    callerScope: string;
+    outcome: "allow" | "deny";
+    denyReason: "L2_unknown_caller" | "L3_schema" | "L3_authz" | "L3_notion_delete" | "L3_policy" | "L4_rate_limit" | "L1_adapter" | null;
+    latencyMs: number;
+    rowCount?: number | null;
 }
-
 /**
  * @typedef {Object} QueryResult
  * @property {"allow"|"deny"} outcome
@@ -76,13 +63,12 @@ export interface OutcomeRecord {
  * @property {number} latencyMs
  */
 export interface QueryResult {
-  outcome: "allow" | "deny";
-  denyReason: string | null;
-  rows?: unknown[];
-  rowCount?: number | null;
-  latencyMs: number;
+    outcome: "allow" | "deny";
+    denyReason: string | null;
+    rows?: unknown[];
+    rowCount?: number | null;
+    latencyMs: number;
 }
-
 /**
  * @typedef {Object} PolicyEntry
  * @property {string[]} [stores]  allowed stores for this service ("*" wildcard); absent = unrestricted
@@ -90,11 +76,10 @@ export interface QueryResult {
  * @property {string[]} [tables]  allowed tables for this service ("*" wildcard); absent = unrestricted
  */
 export interface PolicyEntry {
-  stores?: string[];
-  ops?: string[];
-  tables?: string[];
+    stores?: string[];
+    ops?: string[];
+    tables?: string[];
 }
-
 /**
  * @typedef {Object} DbGatewayOptions
  * @property {Object} [adapters]           per-store adapter options object or pre-built IDBAdapter instance
@@ -105,13 +90,25 @@ export interface PolicyEntry {
  * @property {boolean} [dryRun]            true → L2-L4 + adapter.validate() only, no I/O, rowCount null
  */
 export interface DbGatewayOptions {
-  adapters?: {
-    notion?: Record<string, unknown> | { store: string; execute: Function; validate?: Function };
-    postgres?: Record<string, unknown> | { store: string; execute: Function; validate?: Function };
-    sqlite?: Record<string, unknown> | { store: string; execute: Function; validate?: Function };
-  };
-  policies?: Record<string, PolicyEntry>;
-  auditLogPath?: string;
-  rateLimitPerMinute?: number;
-  dryRun?: boolean;
+    adapters?: {
+        notion?: Record<string, unknown> | {
+            store: string;
+            execute: Function;
+            validate?: Function;
+        };
+        postgres?: Record<string, unknown> | {
+            store: string;
+            execute: Function;
+            validate?: Function;
+        };
+        sqlite?: Record<string, unknown> | {
+            store: string;
+            execute: Function;
+            validate?: Function;
+        };
+    };
+    policies?: Record<string, PolicyEntry>;
+    auditLogPath?: string;
+    rateLimitPerMinute?: number;
+    dryRun?: boolean;
 }

@@ -3,7 +3,9 @@
 const NAMING_REGEX = /^[a-z][a-z0-9_]*$/; // snake_case enforcement
 
 /**
- * Check a QueryRequest against schema + authz policy.
+ * Check a QueryRequest against schema + baseline authz (Phase 1 — no per-table ACL).
+ * Per-service ACL is layered separately by createDbGateway() when opts.policies is set
+ * (see checkPolicy below / index.ts L3_policy).
  */
 async function check(
   caller: import("../types").Caller,
@@ -24,15 +26,39 @@ async function check(
   }
 
   // Notion hard-block on delete. Archive (op=archive, or op=update with data.archived=true) OK.
-  // @ts-expect-error — TS migration: type unverified, fix when polishing
   if (request.store === "notion" && request.op === "delete") {
     return { allow: false, reason: "L3_notion_delete" };
   }
 
-  // Phase 1: no per-table ACL yet. Phase 2 loads policies/<store>.yaml.
-  // Phase 2 TODO: match caller.service + request.table + request.op against policy.
-
   return { allow: true };
 }
 
-export = { check };
+/**
+ * Per-service policy ACL (only run when createDbGateway() is given opts.policies).
+ * Default-deny: caller.service must have an entry. Each of stores/ops/tables is
+ * matched against the entry's allowlist ("*" wildcard); an omitted dimension is
+ * treated as unrestricted for that axis.
+ */
+function checkPolicy(
+  policies: Record<string, { stores?: string[]; ops?: string[]; tables?: string[] }>,
+  caller: import("../types").Caller,
+  request: import("../types").QueryRequest
+): { allow: boolean; reason?: string } {
+  const entry = policies && caller && policies[caller.service];
+  if (!entry) return { allow: false, reason: "L3_policy" };
+
+  const dims: Array<[string[] | undefined, string]> = [
+    [entry.stores, request.store],
+    [entry.ops, request.op],
+    [entry.tables, request.table],
+  ];
+  for (const [allowlist, value] of dims) {
+    if (!allowlist) continue; // omitted dimension = unrestricted
+    if (!allowlist.includes("*") && !allowlist.includes(value)) {
+      return { allow: false, reason: "L3_policy" };
+    }
+  }
+  return { allow: true };
+}
+
+export = { check, checkPolicy };

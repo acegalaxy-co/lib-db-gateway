@@ -1,28 +1,29 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "outDir": "./dist",
-    "rootDir": ".",
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "strict": false,
+    "module": "node16",
+    "moduleResolution": "node16",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "outDir": "dist",
+    "strict": false,
+    "noImplicitAny": false,
+    "strictNullChecks": true,
     "resolveJsonModule": true,
-    "allowJs": false
+    "allowJs": false,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "verbatimModuleSyntax": false
   },
   "include": [
-    "**/*.ts"
+    "index.ts",
+    "types.ts",
+    "adapters/**/*.ts",
+    "authz/**/*.ts",
+    "identity/**/*.ts",
+    "rate-limit/**/*.ts",
+    "audit/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "test",
-    "**/*.test.ts",
-    "**/*.test.js"
-  ]
+  "exclude": ["node_modules", "dist", "test/**"]
 }

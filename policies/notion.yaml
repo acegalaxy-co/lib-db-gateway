@@ -1,9 +1,0 @@
-# db-gateway/policies/notion.yaml
-# Notion-specific authz. Enforces archive-only (rules/db/02-notion-no-delete.md).
-
-operations:
-  read: { allow: ["*"] }
-  create: { allow: ["*"] }
-  update: { allow: ["*"] }
-  archive: { allow: ["*"] }  # update with archived:true
-  delete: { allow: [] }      # HARD-BLOCK — empty allowlist

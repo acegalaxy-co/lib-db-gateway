@@ -1,7 +1,7 @@
-# Contributing to @acegalaxy/db-gateway
+# Contributing to @acegalaxy/lib-db-gateway
 
 Thanks for your interest! This package is part of the
-[ace_commons](https://github.com/acegalaxy-co) family of cross-project
+[lib-*](https://github.com/acegalaxy-co) family of cross-project
 libraries.
 
 ## Ground rules
@@ -13,8 +13,8 @@ libraries.
 ## Development
 
 ```bash
-git clone https://github.com/acegalaxy-co/ace_commons-db-gateway-nodejs.git
-cd ace_commons-db-gateway-nodejs
+git clone https://github.com/acegalaxy-co/lib-db-gateway.git
+cd lib-db-gateway
 npm install
 npm test
 ```
