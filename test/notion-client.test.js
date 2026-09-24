@@ -202,6 +202,65 @@ describe("createNotionClient (adapters/notion/client.ts)", () => {
     assert.equal(capturedHeaders.Authorization, "Bearer opt-token");
   });
 
+  // callerSkip only trims which frame is *reported* as the caller — it can't force
+  // "no caller at all" because frames still exist further up the stack (the test
+  // runner's own internals). So the observable contract is: with callerSkip
+  // matching this test file, the reported `at` (if any) no longer points into this
+  // test file, whereas without it, `at` does point into this test file.
+
+  it("callerSkip absent — caller `at` points into this test file", async () => {
+    globalThis.fetch = async () => jsonResponse(200, { ok: true });
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "notion-audit-"));
+    const client = createNotionClient(baseCfg({ auditDir: tmpDir }));
+    await client.request("/v1/pages/abc", { method: "PATCH", body: JSON.stringify({ archived: true }) });
+    const day = new Date().toISOString().slice(0, 10);
+    const file = path.join(tmpDir, `notion-mutations-${day}.jsonl`);
+    const record = JSON.parse(fs.readFileSync(file, "utf8").trim());
+    assert.ok(record.caller, "caller should be resolved when nothing is skipped");
+    assert.match(record.caller.at, /notion-client\.test\.js/);
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  });
+
+  it("callerSkip (string) — matching this test file, caller no longer points into it", async () => {
+    globalThis.fetch = async () => jsonResponse(200, { ok: true });
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "notion-audit-"));
+    const client = createNotionClient(baseCfg({ auditDir: tmpDir, callerSkip: ["notion-client.test.js"] }));
+    await client.request("/v1/pages/abc", { method: "PATCH", body: JSON.stringify({ archived: true }) });
+    const day = new Date().toISOString().slice(0, 10);
+    const file = path.join(tmpDir, `notion-mutations-${day}.jsonl`);
+    const record = JSON.parse(fs.readFileSync(file, "utf8").trim());
+    if (record.caller) assert.doesNotMatch(record.caller.at, /notion-client\.test\.js/);
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  });
+
+  it("callerSkip (RegExp) — same skip effect as the string form", async () => {
+    globalThis.fetch = async () => jsonResponse(200, { ok: true });
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "notion-audit-"));
+    const client = createNotionClient(baseCfg({ auditDir: tmpDir, callerSkip: [/notion-client\.test\.js/] }));
+    await client.request("/v1/pages/abc", { method: "PATCH", body: JSON.stringify({ archived: true }) });
+    const day = new Date().toISOString().slice(0, 10);
+    const file = path.join(tmpDir, `notion-mutations-${day}.jsonl`);
+    const record = JSON.parse(fs.readFileSync(file, "utf8").trim());
+    if (record.caller) assert.doesNotMatch(record.caller.at, /notion-client\.test\.js/);
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  });
+
+  it("maxRetries invalid (NaN) — falls back to default (3), so persistent 500 retries 4 times total", async () => {
+    let calls = 0;
+    globalThis.fetch = async () => { calls++; return jsonResponse(500, "server error"); };
+    const client = createNotionClient(baseCfg({ maxRetries: NaN, serverErrorDelayMs: 0 }));
+    const resp = await client.request("/v1/pages/x");
+    assert.equal(resp.ok, false);
+    assert.equal(calls, 4); // default maxRetries=3 → 1 initial + 3 retries
+  });
+
+  it("networkErrorDelayMs invalid (negative) — resolveNotionConfig() falls back to default (5000)", () => {
+    const configPath = path.resolve(__dirname, "../adapters/notion/config.ts");
+    const { resolveNotionConfig } = require(configPath);
+    const cfg = resolveNotionConfig({ networkErrorDelayMs: -100 });
+    assert.equal(cfg.networkErrorDelayMs, 5000);
+  });
+
   it("no options — falls back to env (NOTION_TOKEN, NOTION_BASE_URL)", async () => {
     process.env.NOTION_TOKEN = "env-token";
     process.env.NOTION_BASE_URL = "https://env.notion.test";

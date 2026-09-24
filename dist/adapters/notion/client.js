@@ -5,7 +5,8 @@
  * "assert parent db" check) is NOT baked in here — inject it via
  * `hooks.beforeRequest`, which may throw to block the call before any HTTP
  * request is made. Never throws itself — failures return a Response-like
- * object with `ok: false`.
+ * object with `ok: false`. `callerSkip` lets a consumer's own shim/wrapper
+ * file be skipped too when computing the audit `caller` frame.
  */
 const fs = require("fs");
 const path = require("path");
@@ -56,11 +57,26 @@ function extractSummary(method, body) {
     catch (_) { /* body not JSON */ }
     return null;
 }
-function callerInfo() {
+function _lineSkipped(line, callerSkip) {
+    for (const pattern of callerSkip) {
+        if (typeof pattern === "string") {
+            if (line.includes(pattern))
+                return true;
+        }
+        else if (pattern instanceof RegExp) {
+            if (pattern.test(line))
+                return true;
+        }
+    }
+    return false;
+}
+function callerInfo(callerSkip) {
+    const skip = callerSkip || [];
     const stack = (new Error()).stack || "";
     for (const line of stack.split("\n").slice(2)) {
         if (line.includes("/adapters/notion/")
-            || line.includes("/node_modules/"))
+            || line.includes("/node_modules/")
+            || _lineSkipped(line, skip))
             continue;
         const m = line.match(/at (?:async )?([^\s(]+)\s*\(?(\/[^)]+)?/);
         if (m) {
@@ -111,7 +127,7 @@ function createNotionClient(partialCfg) {
             url,
             resource: resourceFromUrl(url),
             summary: extractSummary(method, options.body),
-            caller: callerInfo(),
+            caller: callerInfo(cfg.callerSkip),
         } : null;
         // beforeRequest MAY throw — let it propagate before any HTTP call.
         // Consumer-specific gating (e.g. "assert parent db") plugs in here.

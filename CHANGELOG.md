@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-09-24
+
+### Added
+- `createNotionClient({ ..., callerSkip })` — extra stack-frame patterns (string =
+  substring match on the frame's file path, or `RegExp`) skipped when computing the
+  `caller` field logged to the mutation audit record, in addition to the built-in
+  skips (`/adapters/notion/`, `/node_modules/`). Lets a consumer's own shim/wrapper
+  file (e.g. an app-level `notion-helpers.js`) be excluded so the logged caller is
+  the real call site. Default `[]`.
+- `package.json#exports` gained `"./types"` and `"./authz"` subpaths (`./dist/types.js`,
+  `./dist/authz/engine.js`), matching every other existing subpath already exported.
+
+### Fixed
+- `resolveNotionConfig()` now validates numeric options (`rateIntervalMs`,
+  `maxRetries`, `timeoutMs`, `serverErrorDelayMs`, `networkErrorDelayMs`,
+  `batchDelayMs`) the same way whether they come from an explicit option or from
+  env: a non-finite or negative value (e.g. a caller accidentally passing
+  `maxRetries: NaN`, or a malformed `NOTION_MAX_RETRIES` env value) falls back to
+  the default instead of being used as-is.
+
 ## [0.3.0] - 2026-09-24
 
 ### Added

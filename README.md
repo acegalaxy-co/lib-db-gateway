@@ -89,6 +89,12 @@ Real `execute()` implementations for `notion` and `postgres` land in later versi
 (REST fetch for Notion, `pg` for Postgres — `pg` stays an optional peerDependency,
 never a hard dependency of this package).
 
+### Subpath exports
+
+`.`, `./adapters/adapter-interface`, `./adapters/notion`, `./adapters/postgres`,
+`./adapters/sqlite`, `./types` (compile-time type-only, no runtime exports),
+`./authz` (the `check()` function used internally by `createDbGateway()`).
+
 ### `IDBAdapter`
 
 Abstract base (`adapters/adapter-interface.ts`): `store`, `validate(request)` (throws
@@ -109,6 +115,12 @@ const { createNotionClient } = require("@acegalaxy/lib-db-gateway/adapters/notio
 const client = createNotionClient({
   token: process.env.NOTION_TOKEN,
   auditDir: "/var/log/nexus/notion-audit",     // optional mutation audit (JSONL)
+  // Extra stack-frame patterns skipped when computing the audit `caller` field,
+  // on top of the built-in skips (/adapters/notion/, /node_modules/). String =
+  // substring match on the frame's file path; RegExp = tested against the raw
+  // stack line. Use this to skip your own shim/wrapper file so the logged
+  // caller is the real call site, not the shim.
+  callerSkip: ["notion-helpers.js", /\/dao\/_internal\//],
   hooks: {
     beforeRequest(url, options) { /* may throw to block the call */ },
     afterResponse(ctx, url, options, resp) { /* never throws out of request() */ },
@@ -123,6 +135,15 @@ await client.archivePage("<page-id>");
 
 Retries: 429 (honors `Retry-After`), 5xx, and network errors — up to `maxRetries`
 (default 3), then returns `{ ok: false, status, ... }` instead of throwing.
+
+All numeric options (`rateIntervalMs`, `maxRetries`, `timeoutMs`,
+`serverErrorDelayMs`, `networkErrorDelayMs`, `batchDelayMs`) fall back to env
+(`NOTION_RATE_INTERVAL_MS`, `NOTION_MAX_RETRIES`, `NOTION_TIMEOUT_MS`,
+`NOTION_SERVER_ERROR_DELAY_MS`, `NOTION_NETWORK_ERROR_DELAY_MS`,
+`NOTION_BATCH_DELAY_MS`) then to the built-in default when unset, non-numeric, or
+negative — this validation applies whether the value came from an explicit option
+or from env. The mutation audit log directory falls back to
+`NOTION_CLIENT_AUDIT_DIR`.
 
 ## Security layers
 

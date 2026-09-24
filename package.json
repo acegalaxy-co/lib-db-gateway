@@ -1,12 +1,14 @@
 {
   "name": "@acegalaxy/lib-db-gateway",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "description": "Multi-DB adapter (Postgres + SQLite + Notion) with a 5-layer default-deny security gateway: identity, schema + policy authz, rate-limit, append-only audit log, dryRun mode. Consumed cross-project via git-dependency. Migrated from @acegalaxy/db-gateway@0.1.2 / Nexus commons/db-gateway.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": "./dist/index.js",
+    "./types": "./dist/types.js",
+    "./authz": "./dist/authz/engine.js",
     "./adapters/adapter-interface": "./dist/adapters/adapter-interface.js",
     "./adapters/notion": "./dist/adapters/notion/index.js",
     "./adapters/postgres": "./dist/adapters/postgres.js",

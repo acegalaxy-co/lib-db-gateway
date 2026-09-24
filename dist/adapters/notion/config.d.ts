@@ -24,6 +24,7 @@ interface NotionClientConfig {
     auditDir?: string;
     limiter?: RateLimiterLike;
     hooks?: NotionClientHooks;
+    callerSkip?: (string | RegExp)[];
 }
 declare function resolveNotionConfig(partial?: NotionClientConfig): Required<Omit<NotionClientConfig, "token" | "auditDir" | "limiter" | "hooks">> & NotionClientConfig;
 declare const _default: {
