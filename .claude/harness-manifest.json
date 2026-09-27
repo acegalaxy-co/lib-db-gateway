@@ -139,6 +139,10 @@
       "sha256": "81464896921356df2e0d00b6ac89a297f21b68e162732a13b467f3f0453d9b46"
     },
     {
+      "path": ".claude/skills/diagram/SKILL.md",
+      "sha256": "0f57fae4af783f61049a3c61f4c6f6eaeedb7cf106cb323b46e37e413cdcf44e"
+    },
+    {
       "path": ".claude/skills/doctor-memory/SKILL.md",
       "sha256": "d318f13d4c769628efb69060199b05f82dc607770d889dcc03dbeff0e81c02ab"
     },
@@ -319,9 +323,19 @@
         "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/session-start.sh"
       },
       {
+        "event": "SessionStart",
+        "matcher": "$CLAUDE_PROJECT_DIR/.claude/hooks/session-start.sh",
+        "command": ""
+      },
+      {
         "event": "SubagentStop",
         "matcher": "",
         "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/subagent-stop-record.sh"
+      },
+      {
+        "event": "SubagentStop",
+        "matcher": "$CLAUDE_PROJECT_DIR/.claude/hooks/subagent-stop-record.sh",
+        "command": ""
       }
     ],
     "deny": [
