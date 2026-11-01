@@ -48,7 +48,7 @@
     },
     {
       "path": ".claude/hooks/pre-bash-gate.sh",
-      "sha256": "74e4edaf48f19937affc81bc2c6330496f44c618a3fcb4257c3cf79cf7d4150f"
+      "sha256": "9be27f0b1e2e3293bcdf8c7d4566acbbb67d3c54289998a0665d78ec0b30e2da"
     },
     {
       "path": ".claude/hooks/pre-browser-profile-gate.sh",
@@ -108,7 +108,7 @@
     },
     {
       "path": ".claude/rules/common/general.md",
-      "sha256": "ca7216bcc34ca8d51d1944d135b65c37cdf7f02fabd350876c7f9ce75b85e5c0"
+      "sha256": "776734d0c6170113a86815ee089830be92e83b71a20060898b8981bcfce752be"
     },
     {
       "path": ".claude/rules/common/git-conventions.md",
@@ -203,6 +203,10 @@
       "sha256": "ebb1bbba8bee942581053db0b77fe2f6dd029abe15bbefbdc242f88d331b92b9"
     },
     {
+      "path": ".claude/skills/cc-cherrypick2genernal/SKILL.md",
+      "sha256": "41726fe5c3ee337be3145ab091e34f0cbbb7b98c108122f65c955cb914db5d47"
+    },
+    {
       "path": ".claude/skills/check-hardcode/SKILL.md",
       "sha256": "d1d3bcdc62b4fd097d99d82e52982fe258e4bfe5c6dbe35e9186592292ce9b4d"
     },
@@ -276,19 +280,19 @@
     },
     {
       "path": ".claude/skills/production-cleanup/SKILL.md",
-      "sha256": "6caa3d257c536fd79033ab47bda7cb24bf386f1f9d146b05fe1da8790f8b76b4"
+      "sha256": "501e7a01dcb092a1f8c19ce75acd399289f457832ff1c0ed8ac5f43140c25d9c"
     },
     {
       "path": ".claude/skills/production-deploy-rsync/SKILL.md",
-      "sha256": "07a21600656962b7ee070d01b6f18f3c2388b2805e1c1905027a6106c05f65c9"
+      "sha256": "c19281b1590695a2965b64c9f4f2d0d34392457d779b49986e999e837b75342e"
     },
     {
       "path": ".claude/skills/production-deploy/SKILL.md",
-      "sha256": "15d4dbf8877b2e7edc05401c5d987fd526d2a0d5b67fb4cf2101c95c9e4f65b2"
+      "sha256": "a889d414ab9cf8fcf26c76b435ac21ba42db3f49b2d895d73fc0895d78781ec5"
     },
     {
       "path": ".claude/skills/production-reboot/SKILL.md",
-      "sha256": "1ef6020817d474d6a546721083542ce76e302132f77254e41a8444604944397d"
+      "sha256": "df3129d1d412ee335a8e7979fed26eb7cc5db7f2ea42d18fb68508a43adf3eab"
     },
     {
       "path": ".claude/skills/recap/SKILL.md",
@@ -307,12 +311,28 @@
       "sha256": "d45ca852c073338931e927fc6137595c22ee83adab9aa7384f4efcb997aaa326"
     },
     {
+      "path": ".claude/skills/smoke-server/SKILL.md",
+      "sha256": "7550030b22e61440a8cc9888e15866724615269fe38d250cef724ee852e0caf7"
+    },
+    {
+      "path": ".claude/skills/smoke-test/SKILL.md",
+      "sha256": "f0a1bcb4844d2c7eac69b2b92273d537da722126625a4a9e0a599c897580cc96"
+    },
+    {
       "path": ".claude/skills/task-loop-feature/SKILL.md",
       "sha256": "724a26ec51cac3b732a21042e02435806f9e0809260d2246dcd2f37323bdd717"
     },
     {
       "path": ".claude/skills/telegram-alert-test/SKILL.md",
       "sha256": "d1e9f9f28e58b486d8715d9b161a7f43258acad9b65be5496087d375d8ab48e6"
+    },
+    {
+      "path": ".claude/skills/test-catalog/SKILL.md",
+      "sha256": "61fa3546efad69b64930142c5055cefe320268ae82f48a0876e7ccdf0f580bdb"
+    },
+    {
+      "path": ".claude/skills/test-catalog/gen.py",
+      "sha256": "758a1ae14b508e3d67aac20e97ff128f8274ee3a26f3fd2bfbe9410f07ebf0e0"
     },
     {
       "path": ".claude/skills/ui-preview/SKILL.md",
@@ -344,7 +364,7 @@
     },
     {
       "path": ".git/hooks/pre-push",
-      "sha256": "6a68c944b5698c54b1701f529059822fcdf3b8f9097bc861366626f88a5190ff"
+      "sha256": "19f5bb055dfc3b4e0e66505a04a1722c0eb281cbc5bb258a6f44114afebb53a0"
     },
     {
       "path": "scripts/delegate/_common.sh",
