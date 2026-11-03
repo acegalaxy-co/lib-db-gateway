@@ -107,15 +107,18 @@ is_safe_host() {
 # --- extract candidate hosts ---
 candidates=""
 
-# 1) URL host (http/https).
+# 1) URL host (http/https); ignore only known XML namespace URI literals.
 while IFS= read -r match; do
   [ -z "$match" ] && continue
+  case "$match" in
+    http://www.w3.org/XML/1998/namespace|http://www.w3.org/2000/xmlns/|http://www.w3.org/2001/XMLSchema|http://www.w3.org/2001/XMLSchema-instance|http://www.w3.org/2000/svg|http://www.w3.org/1999/xlink) continue ;;
+  esac
   host="${match#http://}"
   host="${host#https://}"
   host="${host%%[:/?[:space:]]*}"
   [ -n "$host" ] && candidates="$candidates
 $host"
-done < <(echo "$content" | grep -oiE 'https?://[a-zA-Z0-9._-]+' || true)
+done < <(echo "$content" | grep -oiE "https?://[a-zA-Z0-9._-]+(/[^\"'<>[:space:]]*)?" || true)
 
 # 2) Bare IPv4.
 while IFS= read -r ip; do

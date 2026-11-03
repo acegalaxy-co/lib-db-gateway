@@ -4,11 +4,11 @@
   "syncFiles": [
     {
       "path": ".claude/agents/browser-uipreview.md",
-      "sha256": "16e22ce70d03f9847e9f69ce6c5e318eec00d0886cd39ff14536ecd615830f55"
+      "sha256": "cf3e1e8cfe8c860794c493ac0169f132fe879b801a51cf0a28910057b00fbcb2"
     },
     {
       "path": ".claude/agents/browser-web.md",
-      "sha256": "cbfdd320410c7e9793048c4a6b724b0ff4889f7821fdf2efaf138544a627c369"
+      "sha256": "4aa77faf0408250258a49841fd45c86e3e81aa17f4dae22345898844514bcbb5"
     },
     {
       "path": ".claude/agents/code-reviewer.md",
@@ -16,7 +16,7 @@
     },
     {
       "path": ".claude/agents/delegate-codex.md",
-      "sha256": "feba73b801644441cb0ece88ac56f7e4e1fd6591db16df17d46e505f627ead52"
+      "sha256": "6d52616c2904b97e92c89fe8eb2938f65f0998039032ce181021d4ec7f10c9ab"
     },
     {
       "path": ".claude/agents/delegate-deepseek.md",
@@ -48,11 +48,11 @@
     },
     {
       "path": ".claude/hooks/pre-bash-gate.sh",
-      "sha256": "9be27f0b1e2e3293bcdf8c7d4566acbbb67d3c54289998a0665d78ec0b30e2da"
+      "sha256": "eac3da99657a59a2938dcc105c0904db9dd78b5dfa1d5e561bb87c61445f4378"
     },
     {
       "path": ".claude/hooks/pre-browser-profile-gate.sh",
-      "sha256": "4170ba0281469c672a97dbc023569368d89b00d654e8c67ca5d1dcdbd65d168d"
+      "sha256": "31541cfc11d727ba67000e6569f8483d790004849584e924401b346da22401d7"
     },
     {
       "path": ".claude/hooks/pre-commit-deploy-doc.sh",
@@ -64,7 +64,7 @@
     },
     {
       "path": ".claude/hooks/pre-edit-content-scan.sh",
-      "sha256": "053c17b48555988dc07d01c369187938b4c999ee42236df203719cca87beafb1"
+      "sha256": "2c0cc5d8d53dfcede45f056a50ac8d7b92f6bb80007c34349bab93bdbbf78d5d"
     },
     {
       "path": ".claude/hooks/pre-edit-orchestrator-gate.sh",
@@ -112,7 +112,7 @@
     },
     {
       "path": ".claude/rules/common/git-conventions.md",
-      "sha256": "dfab70c4819e204bf71aad08b0a44c78aa7e5d6859e417a14ab6b20d9ff0cd1f"
+      "sha256": "80381bf1a4a9fa22cb029899c36a635a5784a479ce73d183bf4296786566c4b5"
     },
     {
       "path": ".claude/rules/common/memory-mirror.md",
@@ -120,7 +120,7 @@
     },
     {
       "path": ".claude/rules/common/orchestrator.md",
-      "sha256": "5c163868f8fd0fb42e94d4f7f96d2ebb6f7a9fd7f6b615429c1821433cd2f6f2"
+      "sha256": "c76e0b67ae88a0d5ffff1e675e571955586154e3bb228a1887524f1dbb9be5c0"
     },
     {
       "path": ".claude/rules/common/rbac-security.md",
@@ -272,7 +272,11 @@
     },
     {
       "path": ".claude/skills/git-push-safety/SKILL.md",
-      "sha256": "a74883f3e3a5c5d4cff8e5f66b31581922235462cfedc57a2df02b7bf3812e09"
+      "sha256": "b89d6059682a6fc46bf78f39b11e24450d8dd10ed6e81dfa7b74bc4893bc6aea"
+    },
+    {
+      "path": ".claude/skills/git-push-safety/push-safe.sh",
+      "sha256": "1f931cfe5917fe3f8938fa93a082183c5276008a608fcfb9bace4a98be9885a0"
     },
     {
       "path": ".claude/skills/orchestrate/SKILL.md",
@@ -320,7 +324,7 @@
     },
     {
       "path": ".claude/skills/task-loop-feature/SKILL.md",
-      "sha256": "724a26ec51cac3b732a21042e02435806f9e0809260d2246dcd2f37323bdd717"
+      "sha256": "ed3a042a416c9b9c5df0703b96745175f444b8fdac81eb3d293e05b9a1a1d6fe"
     },
     {
       "path": ".claude/skills/telegram-alert-test/SKILL.md",
@@ -364,7 +368,7 @@
     },
     {
       "path": ".git/hooks/pre-push",
-      "sha256": "19f5bb055dfc3b4e0e66505a04a1722c0eb281cbc5bb258a6f44114afebb53a0"
+      "sha256": "6806c07253967e419e623b55d4938aee88894a6ee8db9d27093650a6cc073da8"
     },
     {
       "path": "scripts/delegate/_common.sh",
@@ -384,7 +388,7 @@
     },
     {
       "path": "scripts/delegate/run-codex.sh",
-      "sha256": "e04846ee8c3f0c9dd4b273e2a6be8bb7e8db595da6aa83a4dfa5a54a612305a5"
+      "sha256": "7e863dfd15f83125efad71fd46ea077e74383990efd1a3c61d8ac8833f265b15"
     },
     {
       "path": "scripts/delegate/run-gemini.sh",
