@@ -3,10 +3,6 @@
   "harnessVersion": "1",
   "syncFiles": [
     {
-      "path": ".claude/agents/browser-uipreview.md",
-      "sha256": "cf3e1e8cfe8c860794c493ac0169f132fe879b801a51cf0a28910057b00fbcb2"
-    },
-    {
       "path": ".claude/agents/browser-web.md",
       "sha256": "4aa77faf0408250258a49841fd45c86e3e81aa17f4dae22345898844514bcbb5"
     },
@@ -388,7 +384,7 @@
     },
     {
       "path": "scripts/delegate/run-codex.sh",
-      "sha256": "525de7f53fd9068cb304142ac6a7447ad6469a13b11f9e0d23ad100bf3262ce4"
+      "sha256": "97fc81e1b6ba91b6cede8e332afedc32091b9242bdaa7fa0ec522783400675a6"
     },
     {
       "path": "scripts/delegate/run-gemini.sh",
@@ -396,6 +392,7 @@
     }
   ],
   "preservePaths": [
+    ".claude/agents/browser-uipreview.md",
     ".claude/allowed-hosts.txt",
     ".claude/memory-mirror/MEMORY.md",
     ".claude/protected-paths.txt",
@@ -434,7 +431,7 @@
   },
   "modelDefaults": {
     "gemini": "gemini-3.1-pro-preview",
-    "codex": "gpt-5.6-terra",
+    "codex": "gpt-6.1-terra",
     "deepseek": "openai/ds/deepseek-v4-pro"
   },
   "settings": {
