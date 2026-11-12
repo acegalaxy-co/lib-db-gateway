@@ -33,7 +33,7 @@ esac
 
 # ── 1) secret scan ───────────────────────────────────────────────────────────
 # High-confidence secret shapes (low false-positive). Broad patterns
-# (IP/domain/email/generic assignment) belong to the /check-hardcode skill,
+# (IP/domain/email/generic assignment) belong to the /audit-hardcode skill,
 # NOT here — auto-blocking those would false-positive constantly.
 if echo "$content" | grep -E -q \
     -e 'sk-ant-[A-Za-z0-9_-]{20,}' \
